@@ -1,6 +1,7 @@
 const LabCoin = artifacts.require("LabCoin");
 const {
-    expectEvent
+    expectEvent,
+    expectRevert
 } = require('@openzeppelin/test-helpers');
 
 require('@openzeppelin/test-helpers/configure')({
@@ -19,10 +20,21 @@ contract("LabCoin", addresses => {
     it("transfer token test", async () => {
         const transferAmount = '12345';
 
-        let receipt = await tokenContract.transfer(bob, transferAmount);
+        let tx = await tokenContract.transfer(bob, transferAmount);
+        console.log(`Gas used: ${tx.receipt.gasUsed}`);
 
         const bobBalance = await tokenContract.balanceOf(bob);
         assert.equal(transferAmount, bobBalance);
-        expectEvent(receipt, 'Transfer', { from: alice, to: bob, value: transferAmount });
+        expectEvent(tx, 'Transfer', { from: alice, to: bob, value: transferAmount });
+    });
+
+    it("transfer reverts tx", async () => {
+        let initialAmount = 1000;
+        let tokenContract = await LabCoin.new(alice, initialAmount);
+
+        let promise = tokenContract.transfer(bob, initialAmount + 1);
+
+        await expectRevert.unspecified(promise);
+        console.log(promise.tx);
     });
 });
