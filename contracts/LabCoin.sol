@@ -7,6 +7,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract LabCoin is ERC20 {
 
     constructor(address initialOwner, uint initialAmount) ERC20("LabCoin", "LAB") {
-        _mint(initialOwner, initialAmount);
+        _mint(initialOwner, initialAmount);        
     }
 }
