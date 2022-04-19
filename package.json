@@ -12,6 +12,7 @@
     "@openzeppelin/contracts": "^4.5.0"
   },
   "devDependencies": {
+    "eth-gas-reporter": "^0.2.25",
     "@openzeppelin/test-helpers": "^0.5.15"
   }
 }
